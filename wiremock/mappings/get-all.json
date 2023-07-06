@@ -1,0 +1,39 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/books"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": [
+      {
+        "id": 1,
+        "title": "Harry Potter and Philosopher's Stone",
+        "author": "J. K. Rowling"
+      },
+      {
+        "id": 2,
+        "title": "Harry Potter and Chamber of Secrets",
+        "author": "J. K. Rowling"
+      },
+      {
+        "id": 3,
+        "title": "Harry Potter and Prisoner of Azkaban",
+        "author": "J. K. Rowling"
+      },
+      {
+        "id": 4,
+        "title": "The Lord of the Rings - The Fellowship of the Rin",
+        "author": "J. R. R. Tolkien"
+      },
+      {
+        "id": 5,
+        "title": "The Blade Itself",
+        "author": "Joe Abercrombie"
+      }
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

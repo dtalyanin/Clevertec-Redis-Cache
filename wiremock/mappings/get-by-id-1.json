@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/books/1"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "id": 1,
+      "title": "Harry Potter and Philosopher's Stone",
+      "author": "J. K. Rowling"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

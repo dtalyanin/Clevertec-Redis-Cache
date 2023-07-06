@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/books/2"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "id": 2,
+      "title": "Harry Potter and Chamber of Secrets",
+      "author": "J. K. Rowling"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

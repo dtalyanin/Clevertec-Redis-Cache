@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/books/3"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "id": 3,
+      "title": "Harry Potter and Prisoner of Azkaban",
+      "author": "J. K. Rowling"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

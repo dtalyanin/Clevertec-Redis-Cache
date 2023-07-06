@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/books/([^1-5])"
+  },
+  "response": {
+    "status": 404,
+    "jsonBody": {
+      "errorMessage": "Book with ID not found"
+    },
+    "transformers": ["response-template"],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

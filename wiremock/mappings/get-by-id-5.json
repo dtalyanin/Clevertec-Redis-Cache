@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/books/5"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "id": 5,
+      "title": "The Blade Itself",
+      "author": "Joe Abercrombie"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

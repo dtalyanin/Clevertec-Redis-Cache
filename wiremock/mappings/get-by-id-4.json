@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/books/4"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "id": 4,
+      "title": "The Lord of the Rings - The Fellowship of the Rin",
+      "author": "J. R. R. Tolkien"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
