@@ -1,0 +1,16 @@
+spring:
+
+  cache:
+    type: redis
+
+  data:
+    redis:
+      cluster:
+        nodes:
+          - redis-node-1:6371
+          - redis-node-2:6372
+          - redis-node-3:6373
+          - redis-node-1-replica:6374
+          - redis-node-2-replica:6375
+          - redis-node-3-replica:6376
+        max-redirects: 2
