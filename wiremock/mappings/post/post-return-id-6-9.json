@@ -1,0 +1,28 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/books",
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "title": "${json-unit.any-string}",
+          "author": "${json-unit.any-string}"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "jsonBody": {
+      "id": "{{randomInt lower=6 upper=10}}",
+      "title": "{{jsonPath request.body '$.title'}}",
+      "author": "{{jsonPath request.body '$.author'}}"
+    },
+    "transformers": [
+      "response-template"
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

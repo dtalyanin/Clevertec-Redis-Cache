@@ -1,0 +1,28 @@
+{
+  "request": {
+    "method": "PUT",
+    "urlPathPattern": "/books/([1-5])",
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "title": "${json-unit.any-string}",
+          "author": "${json-unit.any-string}"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "jsonBody": {
+      "id": "{{request.path.[1]}}",
+      "title": "{{jsonPath request.body '$.title'}}",
+      "author": "{{jsonPath request.body '$.author'}}"
+    },
+    "transformers": [
+      "response-template"
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

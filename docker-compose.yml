@@ -2,126 +2,38 @@ version: "3.9"
 
 services:
   app:
+    container_name: cache-app
     build: .
+    environment:
+      SPRING_PROFILES_ACTIVE: standalone
     ports:
       - "8080:8080"
-#    environment:
-#      REDIS_NODE_1: redis-node-1:6371
-#      REDIS_NODE_2: redis-node-2:6372
-#      REDIS_NODE_3: redis-node-3:6373
-#      REDIS_NODE_4: redis-node-1-replica:6374
-#      REDIS_NODE_5: redis-node-2-replica:6375
-#      REDIS_NODE_6: redis-node-3-replica:6376
-#    networks:
-#      redis-net:
-#        ipv4_address: 172.20.0.10
     depends_on:
-      - redis-master
-#      - redis-slave1
-#      - redis-slave2
-      - redis-sentinel1
-      - redis-sentinel2
-      - redis-sentinel3
+      - redis
+      - wiremock
     networks:
-      redis-net:
-        ipv4_address: 172.20.0.10
+      - redis-net
 
-  redis-master:
-    container_name: "redis-master"
-    image: redis:7.0.11
-    command: redis-server
+  redis:
+    container_name: redis-standalone
+    image: redis:7.2-rc2-alpine
     ports:
       - "6379:6379"
     networks:
-      redis-net:
-        ipv4_address: 172.20.0.30
-
-#  redis-slave1:
-#    container_name: "redis-slave1"
-#    image: redis:7.0.11
-#    ports:
-#      - "6380:6379"
-#    command: redis-server --slaveof redis-master 6379
-#    depends_on:
-#      - redis-master
-#    networks:
-#      redis-net:
-#        ipv4_address: 172.20.0.31
-#
-#  redis-slave2:
-#    container_name: "redis-slave2"
-#    image: redis:7.0.11
-#    ports:
-#      - "6381:6379"
-#    command: redis-server --slaveof redis-master 6379
-#    depends_on:
-#      - redis-master
-#    networks:
-#      redis-net:
-#        ipv4_address: 172.20.0.32
-
-  redis-sentinel1:
-    container_name: 'redis-sentinel1'
-    image: redis:7.0.11
-    ports:
-      - "5001:5001"
-    command: redis-server /etc/sentinel.conf --sentinel
-    volumes:
-      - "./sentinel/sentinel.conf:/etc/sentinel.conf"
-    depends_on:
-      - redis-master
-#      - redis-slave1
-#      - redis-slave2
-    networks:
-      redis-net:
-        ipv4_address: 172.20.0.33
-
-
-  redis-sentinel2:
-    container_name: 'redis-sentinel2'
-    image: redis:7.0.11
-    ports:
-      - "5002:5002"
-    command: redis-server /etc/sentinel.conf --sentinel
-    volumes:
-      - "./sentinel/sentinel2.conf:/etc/sentinel.conf"
-    depends_on:
-      - redis-master
-#      - redis-slave1
-#      - redis-slave2
-    networks:
-      redis-net:
-        ipv4_address: 172.20.0.34
-
-  redis-sentinel3:
-    container_name: 'redis-sentinel3'
-    image: redis:7.0.11
-    ports:
-      - "5003:5003"
-    command: redis-server /etc/sentinel.conf --sentinel
-    volumes:
-      - "./sentinel/sentinel3.conf:/etc/sentinel.conf"
-    depends_on:
-      - redis-master
-    networks:
-      redis-net:
-        ipv4_address: 172.20.0.35
+      - redis-net
 
   wiremock:
+    container_name: wiremock-books
     image: wiremock/wiremock
     ports:
       - '8090:8080'
     volumes:
       - ./wiremock:/home/wiremock
+    command:
+      - --global-response-templating
     networks:
-      redis-net:
-        ipv4_address: 172.20.0.40
+      - redis-net
 
 networks:
   redis-net:
-    name: redis-net
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.20.0.0/24

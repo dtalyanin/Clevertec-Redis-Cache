@@ -1,13 +1,10 @@
 package ru.clevertec.cache.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class BookDto {
-    @JsonIgnore
-    private long id;
+public class CreateBookDto {
     @NotBlank
     private String title;
     @NotBlank

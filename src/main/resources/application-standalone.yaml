@@ -1,0 +1,9 @@
+spring:
+
+  cache:
+    type: redis
+
+  data:
+    redis:
+      host: redis-standalone
+      port: 6379

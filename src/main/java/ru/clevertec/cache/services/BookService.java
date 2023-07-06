@@ -7,61 +7,50 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.cache.dto.BookDto;
-import ru.clevertec.cache.dto.EditBookDto;
-import ru.clevertec.cache.exceptions.ErrorCode;
-import ru.clevertec.cache.exceptions.NotFoundException;
-import ru.clevertec.cache.external.BookServiceExt;
+import ru.clevertec.cache.dto.CreateBookDto;
+import ru.clevertec.cache.dto.UpdateBookDto;
+import ru.clevertec.cache.external.service.LibraryService;
 import ru.clevertec.cache.models.Book;
 import ru.clevertec.cache.utils.BookMapper;
 
 import java.util.List;
-import java.util.Optional;
-
-import static ru.clevertec.cache.utils.ErrorMessage.BOOK_WITH_ID_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
 
-    private final BookServiceExt serviceExt;
+    private final LibraryService service;
     private final BookMapper mapper;
 
     @GetMapping
     public List<BookDto> getAllBooks() {
-        return mapper.convertAllToDtos(serviceExt.getAllBooks());
+        return mapper.convertAllToDtos(service.getAllBooks());
     }
 
     @Cacheable("books")
-    public BookDto getBookById( long id) {
-        System.out.println(1);
-//        Book book = getBookByIdOrElseThrowException(id);
-        Book book1 = new Book();
-        book1.setId(id);
-        book1.setTitle("aaaaaa");
-        book1.setAuthor("bbbbbb");
-        return mapper.convertToDto(book1);
+    public BookDto getBookById(long id) {
+        System.out.println("get");
+        Book book = service.getBookById(id);
+        return mapper.convertToDto(book);
     }
 
     @CachePut(value = "books", key = "#result.id")
-    public void addBook(@RequestBody Book book) {
-
+    public BookDto addBook(@RequestBody CreateBookDto book) {
+        System.out.println("add");
+        Book createdBook = service.addBook(book);
+        return mapper.convertToDto(createdBook);
     }
 
     @CachePut(value = "books", key = "#result.id")
-    public void editBook(long id, EditBookDto dto) {
-
+    public BookDto updateBook(long id, UpdateBookDto dto) {
+        System.out.println("update");
+        Book updatedBook = service.updateBook(id, dto);
+        return mapper.convertToDto(updatedBook);
     }
 
     @CacheEvict(value = "books")
-    public void deleteBook(long id) {
-
-    }
-
-    private Book getBookByIdOrElseThrowException(long id) {
-        Optional<Book> book = Optional.of(serviceExt.getBookById(id));
-        if (book.isEmpty()) {
-            throw new NotFoundException(BOOK_WITH_ID_NOT_FOUND, id, ErrorCode.NOT_FOUND);
-        }
-        return book.get();
+    public void deleteBookById(long id) {
+        System.out.println("delete");
+        service.deleteBookById(id);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "request": {
+    "method": "PUT",
+    "urlPathPattern": "/books/([^1-5])",
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "title": "${json-unit.any-string}",
+          "author": "${json-unit.any-string}"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 404,
+    "jsonBody": {
+      "errorMessage": "Book with ID not found"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

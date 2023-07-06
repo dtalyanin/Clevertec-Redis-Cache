@@ -5,26 +5,6 @@ server:
 
 spring:
 
-  cache:
-    type: redis
-
-  data:
-    redis:
-      sentinel:
-        master: redis-master
-        nodes:
-          - redis-sentinel1:5001
-          - redis-sentinel2:5002
-          - redis-sentinel3:5003
-      host: redis-master
-      port: 6379
-  #      cluster:
-#        nodes:
-#        - redis-node-1:6371
-#        - redis-node-2:6372
-#        - redis-node-3:6373
-#        max-redirects: 2
-
   cloud:
     openfeign:
       client:

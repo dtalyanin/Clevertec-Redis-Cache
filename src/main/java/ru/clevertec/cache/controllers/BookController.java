@@ -5,11 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.clevertec.cache.dto.BookDto;
-import ru.clevertec.cache.dto.EditBookDto;
-import ru.clevertec.cache.models.Book;
+import ru.clevertec.cache.dto.CreateBookDto;
+import ru.clevertec.cache.dto.UpdateBookDto;
+import ru.clevertec.cache.models.responses.EditResponse;
 import ru.clevertec.cache.services.BookService;
 
+import java.net.URI;
 import java.util.List;
 
 import static ru.clevertec.cache.utils.ErrorMessage.MIN_ID_MESSAGE;
@@ -33,17 +36,27 @@ public class BookController {
     }
 
     @PostMapping
-    public void addBook(@RequestBody Book book) {
-
+    public ResponseEntity<EditResponse> addBook(@RequestBody CreateBookDto book) {
+        long generatedId = service.addBook(book).getId();
+        EditResponse response = new EditResponse("Book added successfully");
+        URI uri = UriComponentsBuilder
+                .fromPath("books/{id}")
+                .buildAndExpand(generatedId).toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 
-    @PutMapping("{id}")
-    public void editBook(@PathVariable long id, @RequestBody EditBookDto dto) {
-
+    @PutMapping("/{id}")
+    public ResponseEntity<EditResponse> updateBook(@PathVariable @Min(value = 1, message = MIN_ID_MESSAGE) long id,
+                                                   @RequestBody UpdateBookDto dto) {
+        service.updateBook(id, dto);
+        EditResponse response = new EditResponse("Book updated successfully");
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("{id}")
-    public void deleteBook(@PathVariable long id) {
-        service.deleteBook(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<EditResponse> deleteBook(@PathVariable @Min(value = 1, message = MIN_ID_MESSAGE) long id) {
+        service.deleteBookById(id);
+        EditResponse response = new EditResponse("Book deleted successfully");
+        return ResponseEntity.ok(response);
     }
 }
