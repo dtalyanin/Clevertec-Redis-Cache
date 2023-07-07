@@ -7,10 +7,15 @@ spring:
     redis:
       cluster:
         nodes:
-          - redis-node-1:6371
-          - redis-node-2:6372
-          - redis-node-3:6373
-          - redis-node-1-replica:6374
-          - redis-node-2-replica:6375
-          - redis-node-3-replica:6376
+          - 172.20.0.31:6371
+          - 172.20.0.32:6372
+          - 172.20.0.33:6373
+          - 172.20.0.34:6374
+          - 172.20.0.35:6375
+          - 172.20.0.36:6376
         max-redirects: 2
+
+      lettuce:
+        cluster:
+          refresh:
+            period: 5000
