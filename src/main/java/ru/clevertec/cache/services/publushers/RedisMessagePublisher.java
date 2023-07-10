@@ -1,16 +1,21 @@
 package ru.clevertec.cache.services.publushers;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
+import org.redisson.api.RTopic;
+import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
+@Component
 public class RedisMessagePublisher implements MessagePublisher {
 
-    private final RedisTemplate<String, String> redisTemplate;
-    private final ChannelTopic topic;
+    private final RTopic topic;
+
+    @Autowired
+    public RedisMessagePublisher(RedissonClient redissonClient) {
+        this.topic = redissonClient.getTopic("books-backup");
+    }
 
     public void publish(String message) {
-        redisTemplate.convertAndSend(topic.getTopic(), message);
+        topic.publish(message);
     }
 }
