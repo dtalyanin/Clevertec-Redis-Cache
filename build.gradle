@@ -33,6 +33,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'org.redisson:redisson:3.22.1'
+//	implementation 'org.redisson:redisson-spring-boot-starter:3.22.1'
 
 	compileOnly 'org.projectlombok:lombok'
 

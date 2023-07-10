@@ -12,7 +12,7 @@ import java.time.Duration;
 
 @Configuration
 @EnableCaching
-@Profile("!default && !map")
+@Profile("cluster || standalone || sentinel")
 public class RedisCacheConfig {
 
     @Bean

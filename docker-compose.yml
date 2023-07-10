@@ -5,7 +5,8 @@ services:
     container_name: cache-app
     build: .
     environment:
-      SPRING_PROFILES_ACTIVE: standalone
+#      SPRING_PROFILES_ACTIVE: standalone
+      SPRING_PROFILES_ACTIVE: redisson
     ports:
       - "8080:8080"
     depends_on:
