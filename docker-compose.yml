@@ -6,7 +6,7 @@ services:
     build: .
     environment:
 #      SPRING_PROFILES_ACTIVE: standalone
-      SPRING_PROFILES_ACTIVE: redisson
+      SPRING_PROFILES_ACTIVE: rmap
     ports:
       - "8080:8080"
     depends_on:
