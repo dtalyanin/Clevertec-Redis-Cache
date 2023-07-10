@@ -1,6 +1,0 @@
-spring:
-
-  data:
-    redis:
-      host: redis-map
-      port: 6379

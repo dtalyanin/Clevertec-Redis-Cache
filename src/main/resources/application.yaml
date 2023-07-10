@@ -11,5 +11,3 @@ spring:
           books:
             url:
               http://wiremock:8080
-  profiles:
-    active: map
