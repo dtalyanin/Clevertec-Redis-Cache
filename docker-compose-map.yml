@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: cache-app
+    build: .
+    environment:
+      SPRING_PROFILES_ACTIVE: map
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - wiremock
+    networks:
+      - redis-net
+
+  redis:
+    container_name: redis-map
+    image: redis:7.2-rc2-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - redis-net
+
+  wiremock:
+    container_name: wiremock-books
+    image: wiremock/wiremock
+    ports:
+      - '8090:8080'
+    volumes:
+      - ./wiremock:/home/wiremock
+    command:
+      - --global-response-templating
+    networks:
+      - redis-net
+
+networks:
+  redis-net:
+    driver: bridge

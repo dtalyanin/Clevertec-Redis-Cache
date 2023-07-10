@@ -32,7 +32,8 @@ public class BookController {
 
     @GetMapping("{id}")
     public ResponseEntity<BookDto> getBookById(@PathVariable @Min(value = 1, message = MIN_ID_MESSAGE) long id) {
-        return ResponseEntity.ok(service.getBookById(id));
+        BookDto dto = service.getBookById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
