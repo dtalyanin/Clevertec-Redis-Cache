@@ -11,6 +11,7 @@ import ru.clevertec.cache.dto.CreateBookDto;
 import ru.clevertec.cache.dto.UpdateBookDto;
 import ru.clevertec.cache.external.service.LibraryService;
 import ru.clevertec.cache.models.Book;
+import ru.clevertec.cache.services.publushers.MessagePublisher;
 import ru.clevertec.cache.utils.BookMapper;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class BookServiceImpl implements BookService {
 
     private final LibraryService service;
     private final BookMapper mapper;
+    private final MessagePublisher publisher;
 
     @Override
     public List<BookDto> getAllBooks() {
@@ -30,7 +32,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Cacheable("books")
     public BookDto getBookById(long id) {
-        System.out.println("get");
+        publisher.publish("Operation GET");
         Book book = service.getBookById(id);
         return mapper.convertToDto(book);
     }
@@ -38,7 +40,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @CachePut(value = "books", key = "#result.id")
     public BookDto addBook(@RequestBody CreateBookDto book) {
-        System.out.println("add");
+        publisher.publish("Operation ADD");
         Book createdBook = service.addBook(book);
         return mapper.convertToDto(createdBook);
     }
@@ -46,7 +48,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @CachePut(value = "books", key = "#result.id")
     public BookDto updateBook(long id, UpdateBookDto dto) {
-        System.out.println("update");
+        publisher.publish("Operation UPDATE");
         Book updatedBook = service.updateBook(id, dto);
         return mapper.convertToDto(updatedBook);
     }
@@ -54,7 +56,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @CacheEvict(value = "books")
     public void deleteBookById(long id) {
-        System.out.println("delete");
+        publisher.publish("Operation DELETE");
         service.deleteBookById(id);
     }
 }
