@@ -27,22 +27,23 @@ import java.util.Map;
 public class RedisCacheConfig {
 
     private final RedisProperties redisProperties;
+    private final RedisMessageSubscriber subscriber;
 
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
         config.useSingleServer().setAddress("redis://" + redisProperties.getHost() + ":" + redisProperties.getPort());
         RedissonClient client = Redisson.create(config);
-        client.getTopic("books-backup").addListener(String.class, new RedisMessageSubscriber());
+        client.getTopic("books-backup").addListener(String.class, subscriber);
         return client;
     }
 
     @Bean
-    public CacheManager cacheManager(RedissonClient redissonClient) {
+    public CacheManager cacheManager() {
         Map<String, CacheConfig> config = new HashMap<>();
         config.put("books", new CacheConfig(10 * 60 * 1000, 5 * 60 * 1000));
         Codec codec = new TypedJsonJacksonCodec(String.class, BookDto.class);
-        RedissonSpringCacheManager cacheManager = new RedissonSpringCacheManager(redissonClient, config, codec);
+        RedissonSpringCacheManager cacheManager = new RedissonSpringCacheManager(redissonClient(), config, codec);
         cacheManager.setAllowNullValues(false);
         return cacheManager;
     }
